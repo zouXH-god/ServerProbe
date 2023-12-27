@@ -34,7 +34,7 @@
     "server_port": "10086(客户端使用端口——默认为10086)",
     "server_static": "未连接",
     "server_info": null
-  }
+   }
   ```
 4. 运行脚本：
    ```
