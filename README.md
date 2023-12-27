@@ -35,7 +35,7 @@
     "server_static": "未连接",
     "server_info": null
    }
-  ```
+   ```
 4. 运行脚本：
    ```
    python server.py
