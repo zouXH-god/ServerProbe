@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务器信息</title>
+    <!-- 移动端适配 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+<div class="server_box" id="server_box">
+    <div class="server_card" v-for="server in server_list">
+        <div class="server_name" @click="showInfo">{{server.server_name}}</div>
+        <div class="server_ip">{{server.server_ip}}</div>
+        <div class="server_static" v-if="server.server_info">状态：<span class="server_static_info" :type="server.server_static">{{server.server_static}}</span> | 运行时长：{{server.server_info.os.boot_time}}分钟</div>
+        <div class="server_info" v-if="server.server_info">
+            <div class="cpu">
+                <div class="cpu_title">CPU</div>
+                <div class="cpu_info">
+                    <div class="info_item info_item_pro">
+                        <div class="info_item_title">CPU使用率</div>
+                        <div class="progress-container">
+                            <div class="progress-bar" :style="'width: '+server.server_info.cpu.cpu_usage.overall_cpu_usage+'%;'">
+                                {{server.server_info.cpu.cpu_usage.overall_cpu_usage}}%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info_item">
+                        <div class="info_item_title">CPU频率</div>
+                        <div class="info_item_value">{{server.server_info.cpu.frequency.current}}</div>
+                    </div>
+                    <div class="info_item">
+                        <div class="info_item_title">CPU核心数</div>
+                        <div class="info_item_value">{{server.server_info.cpu.total_cores}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="memory">
+                <div class="memory_title">内存</div>
+                <div class="memory_info">
+                    <div class="info_item info_item_pro">
+                        <div class="info_item_title">内存使用率</div>
+                        <div class="progress-container">
+                            <div class="progress-bar" :style="'width: '+server.server_info.memory.percentage+'%;'">
+                                {{server.server_info.memory.percentage}}%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info_item">
+                        <div class="info_item_title">内存总量</div>
+                        <div class="info_item_value">{{server.server_info.memory.total}}</div>
+                    </div>
+                    <div class="info_item">
+                        <div class="info_item_title">内存可用量</div>
+                        <div class="info_item_value">{{server.server_info.memory.available}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="disks">
+                <div class="title">硬盘</div>
+                <div class="disk_info" v-for="disk in server.server_info.disks">
+                    <div class="info_item">
+                        <div class="info_item_title">盘符</div>
+                        <div class="info_item_value">{{disk.mountpoint}}</div>
+                    </div>
+                    <div class="info_item">
+                        <div class="info_item_title">总量</div>
+                        <div class="info_item_value">{{disk.total}}</div>
+                    </div>
+                    <div class="info_item">
+                        <div class="info_item_title">已用</div>
+                        <div class="info_item_value">{{disk.used}}</div>
+                    </div>
+                    <div class="info_item">
+                        <div class="info_item_title">可用</div>
+                        <div class="info_item_value">{{disk.free}}</div>
+                    </div>
+                    <div class="info_item info_item_pro">
+                        <div class="info_item_title">使用率</div>
+                        <div class="progress-container">
+                            <div class="progress-bar" :style="'width: '+disk.percentage+'%;'">
+                                {{disk.percentage}}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="server_info_null" v-else>服务器未连接</div>
+    </div>
+</div>
+</body>
+<script src="/static/js/jq.js"></script>
+<script src="/static/js/vue.js"></script>
+
+<script>
+    var app = new Vue({
+        el: '#server_box',
+        data: {
+            server_list: [
+                {
+                    server_name: '本地电脑',
+                    server_ip: '127.0.0.1',
+                    server_port: "10086",
+                    server_static: '未连接',
+                    server_info: null
+                },
+            ],
+        },
+        methods: {
+            getServerInfo: function (){
+                $.get("get_server_list", (data) => {
+                    this.server_list = data;
+                })
+            },
+            showInfo: function (e){
+                $(e.target).next().next().next().toggleClass("show")
+            }
+        },
+        mounted: function () {
+            setInterval(this.getServerInfo, 5000)
+        }
+    })
+</script>
+</html>

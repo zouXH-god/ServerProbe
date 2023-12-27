@@ -1,0 +1,5 @@
+# 忽略特定文件夹
+.idea/
+
+# 忽略特定文件
+server_list.json

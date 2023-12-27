@@ -1,0 +1,130 @@
+body{
+    background-image: url("/static/img/bgc.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.server_box{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.server_card{
+    width: 320px;
+    background-color: #ffffff8a;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    /*overflow: hidden;*/
+    position: relative;
+    transition: all .3s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 25px;
+    padding: 5px 0;
+/*    毛玻璃效果*/
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+/*.server_info{*/
+/*    display: none;*/
+/*}*/
+/*.server_info.show{*/
+/*    display: block;*/
+/*}*/
+.server_info > div{
+    padding: 5px 10px;
+    display: flex;
+    margin-bottom: 6px;
+    /*justify-content: center;*/
+    width: 100%;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: #fff6;
+    border-radius: 5px;
+    max-height: 160px;
+    overflow: auto;
+    box-shadow: #0088ff24 0 0 3px 1px;
+    transition: all 0.3s;
+}
+.server_info > div:hover{
+    /*box-shadow: #0088ff5e 0 0 3px 2px;*/
+}
+.server_name{
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+    text-align: center;
+}
+.server_ip, .server_static, .server_info_null{
+    font-size: 14px;
+    color: #999;
+    text-align: center;
+}
+.server_info_null{
+    color: #e79e9e;
+}
+.server_static_info[type="已连接"]{
+    color: #73a473;
+}
+.server_static_info[type="未连接"]{
+    color: #e79e9e;
+}
+.cpu{
+    box-sizing: border-box;
+}
+
+.progress-container {
+    width: 100%;
+    background-color: #e79e9e;
+    border-radius: 17px;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 16px;
+    background-color: #73a473;
+    text-align: center;
+    line-height: 16px;
+    color: white;
+}
+
+.info_item{
+    display: flex;
+    flex-wrap: wrap;
+}
+.info_item_title{
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 2px;
+    margin-right: 2em;
+}
+.info_item_value{
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+/* 自定义滚动条的整体部分 */
+::-webkit-scrollbar {
+    width: 3px; /* 可以调整滚动条的宽度 */
+    height: 3px; /* 在横向滚动时，可以调整滚动条的高度 */
+}
+
+/* 自定义滚动条轨道 */
+::-webkit-scrollbar-track {
+    background: #e79e9e; /* 轨道的背景颜色 */
+    border-radius: 6px; /* 轨道的圆角 */
+}
+
+/* 自定义滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    background: #73a473; /* 滑块的背景颜色 */
+    border-radius: 6px; /* 滑块的圆角 */
+}
+
+/* 当鼠标悬停在滚动条滑块上时，改变滑块的颜色 */
+::-webkit-scrollbar-thumb:hover {
+    background: #557c55; /* 滑块的背景颜色（鼠标悬停时） */
+}
+
