@@ -1,0 +1,16 @@
+[
+  {
+    "server_name": "客户端服务器名称",
+    "server_ip": "111.111.111.111(客户端服务器ip)",
+    "server_port": "10086(客户端使用端口——默认为10086)",
+    "server_static": "未连接",
+    "server_info": null
+  },
+  {
+    "server_name": "本地电脑",
+    "server_ip": "127.0.0.1",
+    "server_port": "10086",
+    "server_static": "未连接",
+    "server_info": null
+  }
+]
