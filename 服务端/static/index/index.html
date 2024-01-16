@@ -118,6 +118,7 @@
             }
         },
         mounted: function () {
+            this.getServerInfo()
             setInterval(this.getServerInfo, 5000)
         }
     })

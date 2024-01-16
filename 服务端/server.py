@@ -6,6 +6,7 @@ import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from tools import format_time, config, send_email
+from log import logger
 
 app = flask.Flask(__name__)
 with open("server_list.json", "r", encoding="utf-8") as f:
@@ -15,10 +16,13 @@ scheduler = BackgroundScheduler()
 
 # 定义定时任务
 def timed_task():
+    logger.info("正在请求服务器数据")
     for server in server_list:
         url = f"http://{server['server_ip']}:{server['server_port']}/get_system_info"
         try:
-            response = requests.get(url=url).json()
+            logger.info(f"正在请求 {server['server_name']} 的数据")
+            response = requests.get(url=url, timeout=5).json()
+            logger.info(f"请求 {server['server_name']} 的数据成功")
             # 格式化时间
             response['os']["boot_time"] = format_time(response['os']["boot_time"])
             # 存储数据
@@ -26,6 +30,7 @@ def timed_task():
             server["server_static"] = "已连接"
             server["update_time"] = time.time()
         except:
+            logger.warning(f"请求 {server['server_name']} 的数据失败")
             server["server_info"] = None
             server["server_static"] = "未连接"
             # 判断是否超过设定时间，超过则发送邮件
