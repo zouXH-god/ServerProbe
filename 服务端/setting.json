@@ -1,0 +1,15 @@
+{
+  "setting": {
+    "sendInfo": true（是否超时上报）,
+    "lostTime": 10（超时时间/分钟）,
+    "toEmail": "邮箱",
+    "host": ""（服务器地址）,
+    "port": 10088（运行端口）
+  },
+  "email": {
+    "email": "发件邮箱",
+    "password": "发件密钥",
+    "smtp": "发件服务器",
+    "port": 465（发件端口）
+  }
+}
