@@ -1,15 +1,44 @@
 import json
-from datetime import datetime
 import time
 import psutil
 import platform
+
+import requests
 from flask import Flask, jsonify
 import flask_cors
+import argparse
 
+# 创建 ArgumentParser 对象
+parser = argparse.ArgumentParser(description='探针服务器')
+
+# 添加 '-r' 或 '--run' 参数，它是一个可选参数
+parser.add_argument('-t', '--type', help='运行模式', type=str, default="passive")
+parser.add_argument('-i', '--ip', help='主服务地址', type=str, default="127.0.0.1:10088")
+parser.add_argument('-n', '--name', help='服务器名称', type=str, default="服务器")
+
+# 解析命令行参数
+args = parser.parse_args()
+
+server_type = args.type
+home_server = args.ip
+server_name = args.name
+if not home_server.startswith("http"):
+    home_server = "http://" + home_server
+# 主动探针
+def update():
+    # 主动探针请求
+    url = f"{home_server}/set_server_list"
+    data = json.dumps(get_system_info())
+    try:
+        print("正在上报服务器数据")
+        requests.post(url=url, data={"server_name": server_name, "data": data})
+    except Exception as e:
+        print(f"请求出错: {e}")
+
+
+# 被动探针
 app = Flask(__name__)
 flask_cors.CORS(app, supports_credentials=True)
-
-
 @app.route('/get_system_info')
 def get_system_info():
     return jsonify(get_system_info())
@@ -100,4 +129,10 @@ info = get_system_info()
 print(json.dumps(info, indent=4))
 
 if __name__ == '__main__':
-    app.run("0.0.0.0", 10086)
+    print(server_type)
+    if server_type == "passive":
+        app.run("0.0.0.0", 10086)
+    elif server_type == "active":
+        while True:
+            update()
+            time.sleep(5)
